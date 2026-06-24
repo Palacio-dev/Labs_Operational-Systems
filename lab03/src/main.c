@@ -1,59 +1,37 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
+#include "../inc/agent.h"
+#include "../inc/helpers.h"
+#include "../inc/smokers.h"
 
-// Semaphores
-sem_t agent_semaphore;
-sem_t smoker_semaphores[3];  // One for each smoker
+extern pthread_t thread_A, thread_B, thread_C, h1, h2, h3, s1, s2, s3;
+extern pthread_mutex_t helpers_mutex;
 
-// Thread function for the agent
-void* agent_function(void* arg) {
-    // Agent logic will go here
-    return NULL;
+int main(){
+    sem_t *semaphores[] = {&agent_sem, &tobacco, &paper, &match, &tobacco_sem, &paper_sem, &match_sem};
+    for(int i = 0; i < (sizeof(semaphores) / sizeof(semaphores[0])); i++){
+        sem_init(semaphores[i], 0, 0);
+    }
+
+    pthread_mutex_init(&helpers_mutex, NULL);
+
+    // criando threads do agente
+    pthread_create(&thread_A, NULL, agent_thread_func, (void *) TOBACCO_AND_PAPER);
+    pthread_create(&thread_B, NULL, agent_thread_func, (void *) TOBACCO_AND_MATCH);
+    pthread_create(&thread_C, NULL, agent_thread_func, (void *) MATCH_AND_PAPER);
+
+    // criando threads helpers
+    pthread_create(&h1, NULL, helper_thread_func, (void *) TOBACCO);
+    pthread_create(&h2, NULL, helper_thread_func, (void *) PAPER);
+    pthread_create(&h3, NULL, helper_thread_func, (void *) MATCH);
+
+    // criando threads dos smokers
+    pthread_create(&s1, NULL, smoker_thread_func, (void *) SMOKER_TOBACCO);
+    pthread_create(&s2, NULL, smoker_thread_func, (void *) SMOKER_PAPER);
+    pthread_create(&s3, NULL, smoker_thread_func, (void *) SMOKER_MATCH);
+
+    sem_post(&agent_sem);
+
+    sleep(1000000);
 }
-
-// Thread function for smokers
-void* smoker_function(void* arg) {
-    int smoker_id = *(int*)arg;
-    // Smoker logic will go here
-    return NULL;
-}
-
-int main() {
-    // Initialize semaphores
-    sem_init(&agent_semaphore, 0, 1);  // Agent starts with 1 permit
-    for (int i = 0; i < 3; i++) {
-        sem_init(&smoker_semaphores[i], 0, 0);  // Smokers start blocked
-    }
-
-    // Create threads
-    pthread_t agent_thread;
-    pthread_t smoker_threads[3];
-    int smoker_ids[3] = {0, 1, 2};
-
-    // Create agent thread
-    pthread_create(&agent_thread, NULL, agent_function, NULL);
-
-    // Create smoker threads
-    for (int i = 0; i < 3; i++) {
-        pthread_create(&smoker_threads[i], NULL, smoker_function, &smoker_ids[i]);
-    }
-
-    // Wait for all threads to complete
-    pthread_join(agent_thread, NULL);
-    for (int i = 0; i < 3; i++) {
-        pthread_join(smoker_threads[i], NULL);
-    }
-
-    // Destroy semaphores
-    sem_destroy(&agent_semaphore);
-    for (int i = 0; i < 3; i++) {
-        sem_destroy(&smoker_semaphores[i]);
-    }
-
-    return 0;
-}
-
-
