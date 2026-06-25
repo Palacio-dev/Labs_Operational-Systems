@@ -16,6 +16,8 @@ void *agent_thread_func(void *arg){
 
         printf("Thread do agente ativada (%d)! Iteração = %d\n", current_arg, counter);
 
+        sleep(1);
+
         if (current_arg == TOBACCO_AND_PAPER){
             sem_post(&tobacco);
             sem_post(&paper);
