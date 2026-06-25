@@ -1,16 +1,16 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
-#include "../inc/agent.h"
-#include "../inc/helpers.h"
-#include "../inc/smokers.h"
+#include "agent.h"
+#include "helpers.h"
+#include "smokers.h"
 
 extern pthread_t thread_A, thread_B, thread_C, h1, h2, h3, s1, s2, s3;
 extern pthread_mutex_t helpers_mutex;
 
 int main(){
     sem_t *semaphores[] = {&agent_sem, &tobacco, &paper, &match, &tobacco_sem, &paper_sem, &match_sem};
-    for(int i = 0; i < (sizeof(semaphores) / sizeof(semaphores[0])); i++){
+    for(long unsigned int i = 0; i < (sizeof(semaphores) / sizeof(semaphores[0])); i++){
         sem_init(semaphores[i], 0, 0);
     }
 

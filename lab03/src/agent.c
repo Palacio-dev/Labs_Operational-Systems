@@ -2,7 +2,7 @@
 #include <semaphore.h>
 #include <unistd.h>
 #include <stdio.h>
-#include "../inc/agent.h"
+#include "agent.h"
 
 pthread_t thread_A, thread_B, thread_C;
 sem_t agent_sem, tobacco, paper, match;

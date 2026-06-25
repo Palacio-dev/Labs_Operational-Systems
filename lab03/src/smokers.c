@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "../inc/smokers.h"
+#include "smokers.h"
 
 static char *smoker_type_to_str[] = {
     [SMOKER_TOBACCO] = "Tabaco",

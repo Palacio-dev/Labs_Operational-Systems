@@ -1,6 +1,6 @@
 #include <pthread.h>
 #include <stdbool.h>
-#include "../inc/helpers.h"
+#include "helpers.h"
 
 pthread_t h1, h2, h3;
 pthread_mutex_t helpers_mutex;
