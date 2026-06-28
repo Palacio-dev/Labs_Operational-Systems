@@ -10,7 +10,7 @@
 #define __NR_parent_control_check 474
 
 void verify_control_check_ret(unsigned char *url, bool expected){
-    bool bret = syscall(__NR_parent_control_check, SITE1);
+    bool bret = syscall(__NR_parent_control_check, url);
 
     if(bret){
         printf("Poggers! O acesso ao site %s está permitido!\n", url);
