@@ -1,0 +1,1 @@
+obj-y += parent_control.o pc_linked_list.o
