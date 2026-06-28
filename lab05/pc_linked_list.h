@@ -3,6 +3,8 @@
 
 #include <linux/types.h>
 
+#define PC_STR_BUF_LEN 256
+
 typedef struct s_pc_list_node * pc_list_node_p;
 
 typedef struct s_pc_list_node{
@@ -10,7 +12,9 @@ typedef struct s_pc_list_node{
     pc_list_node_p next;
 } pc_list_node;
 
-pc_list_node *create_pc_list_node(void);
+pc_list_node *create_pc_list_node(unsigned char *url);
+
+int destroy_pc_list_node(pc_list_node *pc_node);
 
 int pc_list_add(unsigned char *url);
 
