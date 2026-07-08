@@ -12,4 +12,6 @@ typedef enum {
 
 void *smoker_thread_func(void *arg);
 
+void smokers_init();
+
 #endif

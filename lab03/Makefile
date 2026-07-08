@@ -9,12 +9,13 @@ INC_DIR = inc
 
 # Opções de compilação (Flags)
 CFLAGS = -Wall -Wextra -g -pthread -I$(INC_DIR)
+LDFLAGS = -lncurses
 
 # Nome do executável final (agora apontando para dentro de build/)
 TARGET = $(BUILD_DIR)/cigarrette_smokers
 
 # Lista de arquivos fonte (.c)
-SRCS = $(SRC_DIR)/agent.c $(SRC_DIR)/helpers.c $(SRC_DIR)/main.c $(SRC_DIR)/smokers.c
+SRCS = $(SRC_DIR)/agent.c $(SRC_DIR)/helpers.c $(SRC_DIR)/main.c $(SRC_DIR)/smokers.c $(SRC_DIR)/anim.c
 
 # Lista de arquivos objeto (.o) mapeados para dentro de build/objs/
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
@@ -25,7 +26,7 @@ all: $(TARGET)
 # Regra para criar o executável dentro de build/
 $(TARGET): $(OBJS)
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 # Regra de Padrão Estático para compilar arquivos .c em .o dentro de build/objs/
 $(OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c

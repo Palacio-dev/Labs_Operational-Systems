@@ -4,9 +4,10 @@
 #include "agent.h"
 #include "helpers.h"
 #include "smokers.h"
+#include "anim.h"
 
 extern pthread_t thread_A, thread_B, thread_C, h1, h2, h3, s1, s2, s3;
-extern pthread_mutex_t helpers_mutex;
+extern pthread_mutex_t helpers_mutex, screen_mutex;
 
 int main(){
     sem_t *semaphores[] = {&agent_sem, &tobacco, &paper, &match, &tobacco_sem, &paper_sem, &match_sem};
@@ -15,6 +16,11 @@ int main(){
     }
 
     pthread_mutex_init(&helpers_mutex, NULL);
+    pthread_mutex_init(&screen_mutex, NULL);
+
+    anim_init();
+    smokers_init();
+    agents_init();
 
     // criando threads do agente
     pthread_create(&thread_A, NULL, agent_thread_func, (void *) TOBACCO_AND_PAPER);
@@ -34,4 +40,6 @@ int main(){
     sem_post(&agent_sem);
 
     sleep(1000000);
+
+    anim_close();
 }

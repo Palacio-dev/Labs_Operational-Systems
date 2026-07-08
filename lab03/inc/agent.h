@@ -9,4 +9,6 @@ typedef enum {
 
 void *agent_thread_func(void *arg);
 
+void agents_init();
+
 #endif
