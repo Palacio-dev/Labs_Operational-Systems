@@ -1,0 +1,1 @@
+obj-$(CONFIG_ERROR_TRAN) += error_translate.o

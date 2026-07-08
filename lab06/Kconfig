@@ -1,0 +1,5 @@
+config ERROR_TRAN
+    default m
+    tristate "Zephyr error translation module"
+    help
+        placeholder
