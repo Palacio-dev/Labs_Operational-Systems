@@ -9,7 +9,7 @@
 #include <linux/cdev.h>
 #include <linux/string.h>
 
-#define LAST_ERROR_CODE 140UL
+#define LAST_ERROR_CODE 134UL
 
 static dev_t error_tran_dev; // Holds the major and minor number for our driver
 static struct cdev error_tran_cdev; // Char device. Holds fops and device number
@@ -150,7 +150,7 @@ static char *error_table[] = {
     [132] = "Operation not possible due to RF-kill.\n",
     [133] = "Memory page has hardware error.\n",
     [134] = "Wrong file type for the intended operation.\n",
-    [141] = "Invalid error code.\n"
+    [LAST_ERROR_CODE + 1] = "Invalid error code.\n"
 };
 
 
