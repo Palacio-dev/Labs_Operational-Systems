@@ -212,6 +212,7 @@ void anim_agent_2(sprite *s) {
 
 
 void anim_draw_cenario() {
+    mvprintw(3, 17,  "SALINHA DO FUMO");
     mvprintw(4, 15,  " __________________ ");
     mvprintw(5, 15,  "|                  |");
     mvprintw(6, 15,  "|                  |");

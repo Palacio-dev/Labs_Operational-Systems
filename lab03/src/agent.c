@@ -38,13 +38,13 @@ void agents_init(){
 }
 
 void *agent_thread_func(void *arg){
-    int counter = 0;
+    // int counter = 0;
     while(1){
         agent_arg current_arg = (agent_arg) arg;
 
         sem_wait(&agent_sem);
 
-        //printf("Thread do agente ativada (%d)! Iteração = %d\n", current_arg, counter);
+        printf("Thread do agente ativada (%d)! Iteração = %d\n", current_arg, counter);
 
         sleep(1);
 
@@ -85,7 +85,7 @@ void *agent_thread_func(void *arg){
             anim_recharge(&agent_mp);
         }
 
-        counter++;
+        // counter++;
     }
     return NULL;
 }
