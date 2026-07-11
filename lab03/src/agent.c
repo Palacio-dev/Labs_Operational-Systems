@@ -38,17 +38,17 @@ void agents_init(){
 }
 
 void *agent_thread_func(void *arg){
-    // int counter = 0;
+    int counter = 1;
     while(1){
         agent_arg current_arg = (agent_arg) arg;
 
         sem_wait(&agent_sem);
 
-        printf("Thread do agente ativada (%d)! Iteração = %d\n", current_arg, counter);
-
         sleep(1);
 
         if (current_arg == TOBACCO_AND_PAPER){
+            anim_print("Thread do agente Apt ativada! Iteracao = %d", counter);
+
             anim_agent_1(&agent_pt);
             
             sem_post(&tobacco);
@@ -61,6 +61,8 @@ void *agent_thread_func(void *arg){
             anim_recharge(&agent_pt);
 
         } else if (current_arg == TOBACCO_AND_MATCH){
+            anim_print("Thread do agente Amt ativada! Iteracao = %d", counter);
+
             anim_agent_1(&agent_mt);
             
             sem_post(&tobacco);
@@ -73,6 +75,8 @@ void *agent_thread_func(void *arg){
             anim_recharge(&agent_mt);
 
         } else if (current_arg == MATCH_AND_PAPER){
+            anim_print("Thread do agente Amp ativada! Iteracao = %d", counter);
+
             anim_agent_1(&agent_mp);
             
             sem_post(&match);
@@ -85,7 +89,7 @@ void *agent_thread_func(void *arg){
             anim_recharge(&agent_mp);
         }
 
-        // counter++;
+        counter++;
     }
     return NULL;
 }

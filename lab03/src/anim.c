@@ -1,15 +1,24 @@
 #include <ncurses.h>
 #include <unistd.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include "anim.h"
 
 #define LOCK_SCREEN() pthread_mutex_lock(&screen_mutex);
 #define UNLOCK_SCREEN() pthread_mutex_unlock(&screen_mutex);
 
+#define ANIM_TIME_MULTIPLIER 1
+
+#define PRINT_START 20
+#define PRINT_END 27
+
+static int print_line_count = PRINT_START;
+
 pthread_mutex_t screen_mutex;
 
 void msleep(unsigned int milliseconds) {
     // 1 millisecond = 1000 microseconds
-    usleep(milliseconds * 1000); 
+    usleep(milliseconds * 1000 * ANIM_TIME_MULTIPLIER); 
 }
 
 void anim_init() {
@@ -30,6 +39,7 @@ void anim_init() {
     init_pair(3, COLOR_BLUE, -1);      // Papel
     init_pair(4, COLOR_YELLOW, -1);    // Fumantes
     init_pair(5, COLOR_MAGENTA, -1);   // Agentes
+    init_pair(6, 8, -1);   // Prints
 
     clear();
     refresh();
@@ -210,7 +220,6 @@ void anim_agent_2(sprite *s) {
     reset_text(s);
 }
 
-
 void anim_draw_cenario() {
     mvprintw(3, 17,  "SALINHA DO FUMO");
     mvprintw(4, 15,  " __________________ ");
@@ -223,4 +232,33 @@ void anim_draw_cenario() {
     mvprintw(11, 15, "|                  |");
     mvprintw(12, 15, "|__________________|");
     refresh();
+}
+
+void anim_print(const char *format, ...) {
+    LOCK_SCREEN();
+    
+    char buffer[256]; 
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+    
+    if (print_line_count > PRINT_END) {
+        print_line_count = PRINT_START;
+        for (int i = PRINT_START; i <= PRINT_END; i++) {
+            move(i, 5);
+            clrtoeol();
+        }
+    }
+    
+    move(print_line_count, 5);
+    clrtoeol();
+    attron(COLOR_PAIR(6));
+    mvprintw(print_line_count, 5, "-> %s", buffer);
+    attroff(COLOR_PAIR(6));
+    
+    print_line_count++;
+    
+    refresh();
+    UNLOCK_SCREEN();
 }

@@ -42,6 +42,7 @@ void smokers_init() {
 }
 
 void smoke(sprite *smoker_sprite, int time_smoking) {
+    anim_print("Fumante %s notificado! Ele fumará por %d segundos", smoker_sprite->og_text, time_smoking);
     anim_smoking(smoker_sprite, time_smoking);
     sleep(1);
     anim_recharge(smoker_sprite);

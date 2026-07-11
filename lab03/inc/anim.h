@@ -29,4 +29,6 @@ void anim_agent_2(sprite *s);
 
 void anim_draw_cenario();
 
+void anim_print(const char *format, ...);
+
 #endif
